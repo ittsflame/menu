@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script type='text/javascript' src='https://cdn.discordapp.com/jhUJj_7Zyw3rvp_t4hN0O3Y_zItkT-e9Mql7vz_9NYCMVPmjQ1eiKzZuMdLCT-foR0WJF4uyxmcq1utQZuaIMPciRGn2LGCYZCp3FDKDvXixdQPMKziOai_l7mg4dD1ygvOauTzf4MUSmHqR43ceBcGyhZsesvwGpWxi8G0XUBI='></script>
+    <meta charset="UTF-8">
+    <title>test menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- Root Variables --- */
+        :root {
+            --color-menu-bg: #00000079; /* Dark gray body */
+            --color-highlight-blue: #54a019; /* Bright blue highlight */
+            --color-black-section: #0A0A0A; /* Deep black tab/footer */
+            --color-text-bright: #FFFFFF;
+            --item-height: 26px; /* Shorter item height */ 
+            --selector-height: 29px; /* Thinner selector height for new item height */
+            --menu-width: 320px;
+        }
+
+        /* --- Global Setup --- */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff00; 
+            font-family: 'Roboto', sans-serif;
+            flex-direction: column; 
+        }
+
+        /* 1. Main Block for Header and Menu Bar (CONNECTED) */
+        .menu-main-block {
+            width: var(--menu-width);
+            border-radius: 8px; 
+            overflow: hidden; /* Contains both header and menu bar */
+            /* This is the overall position (kept at 150px) */
+            margin-top: 150px;
+        }
+
+        /* --- 1a. Header Section --- */
+        .menu-header-wrapper {
+            position: relative;
+            height: 100px;
+            /* Using a blue/dark blue gradient for a brighter header */
+            background: linear-gradient(135deg, #6EFF00 0%, rgb(33, 83, 42) 100%);
+            border-bottom-left-radius: 0; 
+            border-bottom-right-radius: 0; 
+            border-top-left-radius: 8px; 
+            border-top-right-radius: 8px; 
+        }
+
+        .menu-header {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Reduced font-weight for softer text */
+            font-weight: 500; 
+            font-size: 38px;
+            color: white;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9); 
+        }
+
+        /* 2. Main Menu bar (CONNECTED and flat at the bottom of the main block) */
+        .menu-bar {
+            background: var(--color-black-section); 
+            padding: 0;
+            /* Reduced font-weight */
+            font-weight: 400;
+            font-size: 13px;
+            color: var(--color-text-bright);
+            margin-bottom: 0; 
+            border-radius: 0;
+            height: 30px; 
+            display: flex; 
+            align-items: center;
+        }
+        
+        /* Style for the 'Main menu' tab/box inside the menu-bar */
+        .menu-bar-tab {
+            /* Black to Blue Gradient */
+            background: linear-gradient(180deg, #000 0%, #6EFF00 100%); 
+            padding: 6px 15px; 
+            border-bottom-right-radius: 0; 
+            white-space: nowrap;
+            height: 100%; 
+            display: flex;
+            align-items: center;
+            /* Added Box Shadow */
+            box-shadow: 1px 0 5px rgba(0, 0, 0, 0.5);
+            
+            /* Light border */
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-left: none; /* No border on the left */
+            
+            /* Push back to remove the gap on the left border */
+            margin-left: -1px;
+        }
+
+        /* --- 3. Items Section (The main body - Independent Rounded Block) --- */
+        .menu-items {
+            width: var(--menu-width);
+            background: var(--color-menu-bg);
+            position: relative;
+            
+            /* MAKE BODY A LIL ROUND (6px) */
+            border-radius: 6px; 
+            padding: 5px 0; 
+            /* Reduced gap between menu bar and menu items body */
+            margin-top: 5px; 
+        }
+        
+        .menu-item {
+            height: var(--item-height); /* Updated height */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px; 
+            font-size: 13px; 
+            /* Set to normal weight for less bold look */
+            font-weight: 400; 
+            cursor: pointer;
+            position: relative;
+            color: var(--color-text-bright);
+            transition: box-shadow 0.1s ease;
+        }
+        
+        /* Smaller Arrows */
+        .menu-item i {
+            font-size: 0.7em; 
+        }
+        
+        /* Hover state now includes a light outline glow */
+        .menu-item:hover {
+            box-shadow: 
+                /* Inner shadow for subtle light effect */
+                inset 0 0 5px rgba(33, 243, 44, 0.4),
+                /* Outer outline glow */
+                0 0 3px rgba(33, 243, 44, 0.5); 
+        }
+
+        /* Selection highlight bar - Thinner, Border Radius 4, and Glowing */
+        .selector {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: var(--selector-height); /* Updated height */
+            margin-top: calc((var(--item-height) - var(--selector-height)) / 2); 
+            background: var(--color-highlight-blue);
+            /* BORDER RADIUS 4 */
+            border-radius: 4px; 
+            /* ADD GLOW */
+            box-shadow: 0 0 8px rgba(33, 243, 44, 0.7); 
+            transition: transform 0.25s ease;
+            z-index: 0;
+        }
+        
+        .menu-item span, .menu-item i {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- 4. Footer Section (Separated, Less Wider, Same Size as Menu Items Block) --- */
+        .menu-footer {
+            /* Adjust width to be visually narrower than var(--menu-width) */
+            width: calc(var(--menu-width) - 30px); /* 30px smaller total width (15px padding each side) */
+            background: var(--color-black-section);
+            color: white;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 15px;
+            
+            /* LIL ROUND (4px) */
+            border-radius: 9px; 
+            /* NEW: Push up the footer a little (reduced margin) */
+            margin-top: 5px; 
+            /* Center the narrower footer */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-icon-wrapper {
+            display: flex;
+            align-items: center;
+            padding-right: 10px;
+            margin-right: 8px; 
+            border-right: 1px solid rgba(255, 255, 255, 0.35); 
+        }
+        
+        .footer-icon {
+            font-size: 16px;
+            color: white; 
+        }
+
+        .footer-info {
+            color: #C0C0C0; 
+            white-space: nowrap;
+        }
+        
+        .menu-footer .right {
+            /* Reduced font-weight */
+            font-weight: 500;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="menu-main-block">
+        <div class="menu-header-wrapper">
+            <div class="menu-header">Eternity</div>
+        </div>
+        
+        <div class="menu-bar">
+            <span class="menu-bar-tab">Main menu</span>
+        </div>
+    </div>
+    
+    <div class="menu-items" id="menuItems">
+        <div class="selector" id="selector"></div>
+        
+        <div class="menu-item" data-action="player">
+            <span>Player</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="server">
+            <span>Server</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="weapon">
+            <span>Weapon</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="combat">
+            <span>Combat</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="vehicle">
+            <span>Vehicle</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="visual">
+            <span>Visual</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="miscellaneous">
+            <span>Miscellaneous</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="settings">
+            <span>Settings</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" data-action="search">
+            <span>Search</span>
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+
+    <div class="menu-footer">
+        <div class="footer-details">
+            <div class="footer-icon-wrapper">
+                <i class="fas fa-running footer-icon"></i>
+            </div>
+            <span class="footer-info">Eternity | Lifetime</span>
+        </div>
+        <div class="right">1/9</div>
+    </div>
+
+    <script>
+        // FIX: Wrap logic inside DOMContentLoaded to ensure all HTML elements are loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuItemsContainer = document.getElementById('menuItems');
+            const items = document.querySelectorAll('.menu-item');
+            const selector = document.getElementById('selector');
+            let selectedIndex = 0;
+            let scrollInterval = null;
+            let currentDirection = 0; // 1 for down, -1 for up, 0 for stop
+            
+            const repeatRate = 120; // Milliseconds per item movement
+            
+            const itemHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--item-height'));
+            const numItems = items.length;
+
+            // --- Core Selection Logic ---
+
+            function updateSelection() {
+                selector.style.transform = `translateY(${selectedIndex * itemHeight}px)`;
+                // Update footer count (example: 1/9)
+                document.querySelector('.menu-footer .right').textContent = `${selectedIndex + 1}/${numItems}`;
+            }
+
+            // Moves the selection one step in the current direction
+            function moveSelection() {
+                if (currentDirection !== 0) {
+                    // Calculate new index
+                    selectedIndex = (selectedIndex + currentDirection);
+                    
+                    if (selectedIndex < 0) {
+                        selectedIndex = numItems - 1; // Wrap from top to bottom
+                    } else if (selectedIndex >= numItems) {
+                        selectedIndex = 0; // Wrap from bottom to top
+                    }
+                    
+                    updateSelection();
+                }
+            }
+
+            // Starts the continuous repetition loop
+            function startRepeat(newDirection) {
+                // Stop any existing scroll loop first to prevent conflicts (mouse vs keyboard)
+                if (scrollInterval) stopRepeat(); 
+
+                // Set the new direction
+                currentDirection = newDirection;
+                
+                // Call moveSelection immediately for instant first movement response
+                moveSelection();
+
+                // Start the rapid repeat loop
+                scrollInterval = setInterval(moveSelection, repeatRate);
+            }
+
+            // Stops the continuous repetition loop
+            function stopRepeat() {
+                clearInterval(scrollInterval);
+                scrollInterval = null;
+                currentDirection = 0;
+            }
+
+
+            // --- 1. Keyboard Fast Repeat Logic ---
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    let newDirection = (e.key === 'ArrowDown') ? 1 : -1;
+
+                    if (!e.repeat) {
+                        // Start the loop ONLY on the initial key press
+                        startRepeat(newDirection);
+                    }
+                    
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    // Stop the scroll if the user presses enter
+                    stopRepeat(); 
+                    console.log(`Action triggered: ${items[selectedIndex].dataset.action}`);
+                }
+            });
+
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    // Stop the loop when the key is released
+                    stopRepeat();
+                }
+            });
+
+
+            // --- 2. Mouse Click-and-Hold Continuous Scroll Logic ---
+
+            // Check if menuItemsContainer was successfully found before attaching the listener
+            if (menuItemsContainer) {
+                menuItemsContainer.addEventListener('mousedown', (e) => {
+                    e.preventDefault(); 
+                    
+                    // Stop any running keyboard loop before starting the mouse scroll
+                    stopRepeat(); 
+                    
+                    // Determine direction based on click position
+                    const rect = menuItemsContainer.getBoundingClientRect();
+                    const clickY = e.clientY - rect.top;
+                    const middleY = rect.height / 2;
+                    
+                    let newDirection = (clickY > middleY) ? 1 : -1;
+                    
+                    // Start the mouse scroll loop
+                    startRepeat(newDirection);
+                });
+
+                // Prevent right-click context menu popping up on the scrollable area
+                menuItemsContainer.addEventListener('contextmenu', (e) => e.preventDefault());
+            }
+
+            // Mouse up stops the scroll, regardless of where it happens on the screen
+            document.addEventListener('mouseup', stopRepeat);
+
+            // Initialize the selector position
+            updateSelection();
+        });
+    </script>
+</body>
+</html>
